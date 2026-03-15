@@ -24,15 +24,21 @@ AUTH_USER_MODEL = 'accounts.User' # MUST be set before first migration!
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-($p_dzmxiavg4g&h!_^xht#o&t1=jgd77)=92g5p7amu!9u)q6'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-AUTH_USER_MODEL = 'accounts.User'
-
 ALLOWED_HOSTS = []
 
+AUTHENTICATION_BACKENDS = [
+'social_core.backends.google.GoogleOAuth2', 
+'social_core.backends.github.GithubOAuth2', 
+'django.contrib.auth.backends.ModelBackend', 
+]
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('GOOGLE_CLIENT_ID')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('GOOGLE_CLIENT_SECRET')
+SOCIAL_AUTH_GITHUB_KEY = env('GITHUB_CLIENT_ID')
+SOCIAL_AUTH_GITHUB_SECRET = env('GITHUB_CLIENT_SECRET')
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/api/auth/callback/'
 
 # Application definition
 
