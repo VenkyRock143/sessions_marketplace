@@ -1,0 +1,9 @@
+.env
+_pycache__/
+*.pyc
+.DS_Store
+node_modules/
+.next/
+venv/
+staticfiles/
+media/
