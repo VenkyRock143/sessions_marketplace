@@ -1,9 +1,23 @@
-.env
-_pycache__/
-*.pyc
-.DS_Store
-node_modules/
-.next/
+# Python
+env/
 venv/
-staticfiles/
+.venv/
+__pycache__/ 
+*.pyc
+*.pyo
+# Django
+.env
+Create .gitignore — do this BEFORE any commits
+In VS Code: File → New File → save as .gitignore in sessions-marketplace/ rootSessions Marketplace — Complete Build Guide  ·  Page 4
+staticfiles/ 
 media/
+# Node
+node_modules/ 
+.next/ 
+npm-debug.log
+# OS
+.DS_Store 
+Thumbs.db
+# IDE
+.vscode/ 
+.idea/
