@@ -3,11 +3,14 @@ from .models import Booking
 from apps.sessions_app.models import Session
 from apps.sessions_app.serializers import SessionListSerializer
 
-
 class BookingSerializer(serializers.ModelSerializer):
+    # Expanded detail for GET requests
     session_detail = SessionListSerializer(
-        source='session', read_only=True
+        source='session', 
+        read_only=True
     )
+    
+    # Simple ID input for POST requests
     session_id = serializers.PrimaryKeyRelatedField(
         queryset=Session.objects.all(),
         source='session',
@@ -17,16 +20,25 @@ class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = [
-            'id', 'session_id', 'session_detail',
-            'status', 'amount_paid', 'notes', 'booked_at',
+            'id', 
+            'session_id', 
+            'session_detail',
+            'status', 
+            'amount_paid', 
+            'notes', 
+            'booked_at',
         ]
         read_only_fields = ['id', 'status', 'amount_paid', 'booked_at']
 
     def validate(self, attrs):
         session = attrs['session']
         user = self.context['request'].user
+        
+        # 1. Check availability
         if session.spots_remaining <= 0:
             raise serializers.ValidationError('Session is fully booked.')
+            
+        # 2. Prevent duplicate active bookings
         if Booking.objects.filter(
             user=user,
             session=session,
@@ -35,10 +47,13 @@ class BookingSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 'You have already booked this session.'
             )
+            
         return attrs
 
     def create(self, validated_data):
+        # Automatically inject user and set initial financial/status data
         validated_data['user'] = self.context['request'].user
         validated_data['status'] = 'confirmed'
         validated_data['amount_paid'] = validated_data['session'].price
+        
         return super().create(validated_data)

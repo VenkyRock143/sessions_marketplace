@@ -1,29 +1,31 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
-    ROLE_USER    = 'user'
+    # Role Constants
+    ROLE_USER = 'user'
     ROLE_CREATOR = 'creator'
     ROLE_CHOICES = [
-        ('user',    'User'),
-        ('creator', 'Creator'),
+        (ROLE_USER, 'User'),
+        (ROLE_CREATOR, 'Creator'),
     ]
 
-    email  = models.EmailField(unique=True)
-    role   = models.CharField(
+    # Custom Fields
+    email = models.EmailField(unique=True)
+    role = models.CharField(
         max_length=10,
         choices=ROLE_CHOICES,
-        default='user'
+        default=ROLE_USER
     )
     avatar = models.ImageField(
         upload_to='avatars/',
-        null=True,
+        null=True, 
         blank=True
     )
     bio = models.TextField(blank=True)
 
-    USERNAME_FIELD  = 'email'
+    # Authentication Configuration
+    USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
     @property
@@ -41,9 +43,11 @@ class Profile(models.Model):
         related_name='profile'
     )
     display_name = models.CharField(max_length=120, blank=True)
-    website      = models.URLField(blank=True)
-    created_at   = models.DateTimeField(auto_now_add=True)
-    updated_at   = models.DateTimeField(auto_now=True)
+    website = models.URLField(blank=True)
+    
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Profile({self.user.email})"
