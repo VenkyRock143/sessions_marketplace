@@ -7,5 +7,5 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 DATABASES['default']['CONN_MAX_AGE'] = 60
-CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS',Sessions Marketplace — Complete Build Guide  ·  Page 13
+CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS',
 default=['https://yourdomain.com'])
