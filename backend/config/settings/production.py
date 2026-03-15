@@ -1,0 +1,4 @@
+from .base import * 
+DEBUG = False
+SECURE_SSL_REDIRECT = True 
+SECURE_HSTS_SECONDS = 31536000
